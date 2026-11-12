@@ -174,6 +174,88 @@ function rememberListening(track) {
   listenHistory = [item, ...listenHistory.filter((x) => identity(x) !== identity(track))].slice(0, 40);
   writeLocal("openwaveListenHistory", listenHistory);
 }
+let suggestionTimer = 0;
+let suggestionRequest = 0;
+function suggestionItems(query = "", remote = []) {
+  const q = String(query || "").trim().toLocaleLowerCase();
+  const tracks = [
+    ...remote,
+    ...hitmo,
+    ...zaycev,
+    ...audius,
+    ...favorites,
+    ...listenHistory,
+    ...waveTracks,
+  ];
+  const artists = [
+    ...tasteArtists().map((artist) => ({ artist, title: "Исполнитель", kind: "artist" })),
+    ...tracks.map((track) => ({ artist: track.artist, title: track.title, kind: "track", track })),
+  ];
+  const seen = new Set();
+  return artists.filter((item) => {
+    const value = String(item.artist || item.title || "").trim();
+    if (!value || (q && !`${value} ${item.title || ""}`.toLocaleLowerCase().includes(q))) return false;
+    const key = `${item.kind}|${value.toLocaleLowerCase()}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, 8);
+}
+function hideSuggestions() {
+  const root = $("#search-suggestions");
+  if (!root) return;
+  root.hidden = true;
+  root.innerHTML = "";
+}
+function renderSuggestions(query = "", remote = []) {
+  const root = $("#search-suggestions");
+  if (!root) return;
+  const items = suggestionItems(query, remote);
+  if (!items.length) {
+    hideSuggestions();
+    return;
+  }
+  root.innerHTML = items.map((item) => {
+    const value = item.kind === "artist" ? item.artist : item.title;
+    const subtitle = item.kind === "artist"
+      ? "Исполнитель"
+      : `${item.artist || "Неизвестный исполнитель"} · трек`;
+    const image = item.track?.cover || "/logo.png";
+    return `<button class="suggestion" type="button" role="option" data-query="${esc(value)}">
+      <img src="${esc(image)}" alt="" onerror="this.src='/logo.png'">
+      <span><b>${esc(value)}</b><small>${esc(subtitle)}</small></span>
+      <svg><use href="#i-search" /></svg>
+    </button>`;
+  }).join("");
+  root.hidden = false;
+  root.querySelectorAll(".suggestion").forEach((button) => {
+    button.onclick = () => {
+      const value = button.dataset.query || "";
+      $("#global-query").value = value;
+      hideSuggestions();
+      page("search");
+      $("#query").value = value;
+      doSearch();
+    };
+  });
+}
+function scheduleSuggestions(value) {
+  const query = String(value || "").trim();
+  const seq = ++suggestionRequest;
+  clearTimeout(suggestionTimer);
+  renderSuggestions(query);
+  if (query.length < 2) return;
+  suggestionTimer = setTimeout(async () => {
+    try {
+      const data = await api("/api/hitmo/search?q=" + encodeURIComponent(query), {
+        signal: AbortSignal.timeout(9000),
+      });
+      if (seq === suggestionRequest) renderSuggestions(query, data.tracks || []);
+    } catch (_) {
+      // Local artists, likes and history remain available if the catalog is asleep.
+    }
+  }, 260);
+}
 function renderHistory() {
   const root = $("#history-content");
   if (!root) return;
@@ -300,6 +382,24 @@ function page(name, load = true) {
 }
 $$(".nav").forEach((b) => (b.onclick = () => page(b.dataset.page)));
 $("#go-search").onclick = () => page("search");
+$("#global-query").addEventListener("input", (e) => scheduleSuggestions(e.target.value));
+$("#global-query").addEventListener("focus", (e) => renderSuggestions(e.target.value));
+$("#global-search-form").onsubmit = (e) => {
+  e.preventDefault();
+  const q = $("#global-query").value.trim();
+  if (!q) {
+    page("search");
+    $("#query").focus();
+    return;
+  }
+  page("search");
+  $("#query").value = q;
+  hideSuggestions();
+  doSearch();
+};
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#global-search-form, #search-suggestions")) hideSuggestions();
+});
 $("#go-radio").onclick = () => page("radio");
 $("#go-wave").onclick = async () => {
   page("wave", false);
@@ -317,6 +417,7 @@ $$(".genre").forEach(
 );
 $("#search-form").onsubmit = (e) => {
   e.preventDefault();
+  $("#global-query").value = $("#query").value;
   doSearch();
 };
 async function doSearch() {
@@ -326,6 +427,7 @@ async function doSearch() {
     return;
   }
   rememberSearch(q);
+  $("#global-query").value = q;
   const seq = ++searchVersion;
   audius = [];
   ccmixter = [];
@@ -796,6 +898,7 @@ $("#repeat").onclick = () => {
 };
 audio.onplay = () => {
   if (window.scWidget) window.scWidget.pause();
+  window.OpenWaveNative?.startAudio?.();
   startEqualizer();
   updateMediaSession(queue[trackIndex], true);
   $("#play").innerHTML = icon("pause");
@@ -804,6 +907,7 @@ audio.onplay = () => {
   syncMobilePlayer();
 };
 audio.onpause = () => {
+  window.OpenWaveNative?.stopAudio?.();
   stopEqualizer();
   $("#play").innerHTML = icon("play");
   $("#play").setAttribute("aria-label", "Воспроизвести");

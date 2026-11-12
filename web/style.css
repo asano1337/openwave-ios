@@ -250,3 +250,60 @@ main{flex:1;min-width:0;overflow-y:auto;overflow-x:hidden;padding:0 36px 56px;sc
   .mobile-player-main{width:64px;height:64px}
   .mobile-tool{padding:0 13px;font-size:12px}
 }
+
+/* Always-visible search: one tap on desktop, two rows on portrait phones. */
+header{gap:18px}
+.global-search{display:flex;align-items:center;gap:9px;flex:0 1 520px;min-width:180px;height:42px;padding:0 8px 0 13px;border:1px solid #343934;border-radius:999px;background:#0d0d0d;color:#e8ece5}
+.global-search:focus-within{border-color:#aeb8ad;box-shadow:0 0 0 3px #ffffff12}
+.global-search svg{width:18px;height:18px;color:#aeb5ab}
+.global-search input{min-width:0;flex:1;border:0;outline:0;background:none;color:#f4f5ef;font-size:13px}
+.global-search input::placeholder{color:#858c84}
+.global-search button{width:31px;height:31px;border-radius:50%;background:#fff;color:#050505;font-weight:800}
+.global-search button:hover{transform:translateX(1px)}
+@media(max-width:700px){
+  header{height:108px;display:flex;flex-wrap:wrap;align-content:center;gap:9px;padding:8px 0}
+  .header-label{flex:1;min-width:0}
+  .global-search{order:3;flex:1 0 100%;width:100%;height:42px}
+  .global-search input{font-size:14px}
+}
+
+/* Final phone pass: respect the Dynamic Island/home indicator and make search
+   the first-class control instead of squeezing the desktop header into a phone. */
+header{position:relative;z-index:25}
+.search-suggestions{position:absolute;z-index:40;top:calc(100% - 6px);right:0;width:min(520px,calc(100vw - 32px));padding:6px;border:1px solid #3a403a;border-radius:14px;background:#101110;box-shadow:0 18px 50px #000b}
+.suggestion{display:grid;grid-template-columns:38px minmax(0,1fr) 18px;align-items:center;gap:10px;width:100%;min-height:52px;padding:6px 8px;border-radius:9px;background:transparent;text-align:left}
+.suggestion:hover,.suggestion:focus-visible{background:#252925;outline:0}
+.suggestion img{width:38px;height:38px;object-fit:cover;border-radius:7px;background:#222}
+.suggestion span{min-width:0}
+.suggestion b,.suggestion small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.suggestion b{font-size:13px}
+.suggestion small{margin-top:3px;color:#9da59c;font-size:11px}
+.suggestion svg{width:16px;height:16px;color:#aeb6ad}
+.mobile-player svg,.mobile-tool svg{display:block}
+
+@media (max-width:900px), (orientation:portrait){
+  main{padding-top:env(safe-area-inset-top);padding-bottom:calc(174px + env(safe-area-inset-bottom))}
+  header{height:92px;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:28px 46px;align-content:center;gap:7px;padding:0}
+  .header-label{font-size:9px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .global-search{order:initial;grid-row:2;width:100%;min-width:0;max-width:none;height:44px;padding-left:14px;border-radius:13px;background:#111311}
+  .global-search input{font-size:14px}
+  .global-search button{width:34px;height:34px}
+  .search-suggestions{top:calc(100% - 3px);left:0;right:0;width:100%;border-radius:13px}
+  #search .page-title{margin-top:22px;margin-bottom:14px}
+  #search .page-title h1{font-size:36px;margin:8px 0 4px}
+  #search .page-title p{font-size:14px}
+  #search-form{display:none}
+  .discover-panel{margin-top:16px}
+  aside{height:calc(64px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom)}
+  .nav{height:64px;min-height:64px}
+  .nav.active{height:48px;min-height:48px}
+  .player{bottom:calc(64px + env(safe-area-inset-bottom))}
+  .mobile-player{padding-top:calc(env(safe-area-inset-top) + 10px);padding-bottom:calc(env(safe-area-inset-bottom) + 18px)}
+  .mobile-player-art-wrap{margin-top:clamp(18px,5vh,54px);width:min(82vw,370px)}
+}
+
+@media(max-width:430px){
+  .mobile-player-art-wrap{width:min(82vw,350px)}
+  .mobile-player-info h2{font-size:clamp(25px,7.6vw,31px)}
+  .mobile-player-controls{gap:2px}
+}

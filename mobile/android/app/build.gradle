@@ -1,6 +1,6 @@
 plugins { id 'com.android.application' }
 
 android { namespace 'com.lo5ev.openwave'; compileSdk 35
-    defaultConfig { applicationId 'com.lo5ev.openwave'; minSdk 26; targetSdk 35; versionCode 8; versionName '8.0.0' }
+    defaultConfig { applicationId 'com.lo5ev.openwave'; minSdk 26; targetSdk 35; versionCode 10; versionName '8.2.0' }
     buildTypes { release { minifyEnabled false; shrinkResources false; proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' } }
 }

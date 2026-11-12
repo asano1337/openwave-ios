@@ -1,23 +1,35 @@
 import AVFoundation
 import SwiftUI
+import UIKit
 import WebKit
 
 struct OpenWaveView: View {
     private let backendURL = URL(string: "https://openwave-ios.onrender.com")!
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         OpenWaveWebView(url: backendURL, onChangeServer: {})
-            .ignoresSafeArea()
             .background(Color.black)
             .preferredColorScheme(.dark)
             .onAppear {
-                try? AVAudioSession.sharedInstance().setCategory(
-                    .playback,
-                    mode: .default,
-                    options: [.allowAirPlay, .allowBluetoothA2DP]
-                )
-                try? AVAudioSession.sharedInstance().setActive(true)
+                configureAudioSession()
             }
+            .onChange(of: scenePhase) { phase in
+                if phase == .active || phase == .background {
+                    configureAudioSession()
+                }
+            }
+    }
+
+    private func configureAudioSession() {
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(
+            .playback,
+            mode: .default,
+            options: [.allowAirPlay, .allowBluetoothA2DP]
+        )
+        try? session.setActive(true, options: [])
+        UIApplication.shared.beginReceivingRemoteControlEvents()
     }
 }
 
@@ -30,13 +42,14 @@ struct OpenWaveWebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
+        configuration.allowsPictureInPictureMediaPlayback = true
         configuration.mediaTypesRequiringUserActionForPlayback = []
         configuration.websiteDataStore = .default()
 
         let view = WKWebView(frame: .zero, configuration: configuration)
         view.backgroundColor = .black
         view.isOpaque = true
-        view.scrollView.contentInsetAdjustmentBehavior = .never
+        view.scrollView.contentInsetAdjustmentBehavior = .automatic
         view.navigationDelegate = context.coordinator
         view.allowsLinkPreview = false
         view.allowsBackForwardNavigationGestures = true

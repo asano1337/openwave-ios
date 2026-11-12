@@ -2,7 +2,7 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <title>OpenWave</title>
     <link rel="icon" href="/logo.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
@@ -131,6 +131,12 @@
       <main id="main">
         <header>
           <div class="header-label"><i></i> МУЗЫКА БЕЗ ГРАНИЦ</div>
+          <form id="global-search-form" class="global-search" role="search">
+            <svg><use href="#i-search" /></svg>
+            <input id="global-query" type="search" placeholder="Найти трек или исполнителя" aria-label="Быстрый поиск музыки" autocomplete="off" />
+            <button type="submit" aria-label="Искать">↗</button>
+          </form>
+          <div id="search-suggestions" class="search-suggestions" hidden role="listbox" aria-label="Подсказки поиска"></div>
           <div class="header-right">OPENWAVE <span>/</span> 06</div>
         </header>
         <section id="home" class="view">
@@ -334,15 +340,15 @@
         <div><span id="mobile-player-current">0:00</span><span id="mobile-player-duration">0:00</span></div>
       </div>
       <div class="mobile-player-controls">
-        <button id="mobile-player-shuffle" class="mobile-player-icon" aria-label="Перемешать">${icon("shuffle")}</button>
-        <button id="mobile-player-prev" class="mobile-player-icon" aria-label="Предыдущий трек">${icon("prev")}</button>
-        <button id="mobile-player-play" class="mobile-player-main" aria-label="Воспроизвести">${icon("play")}</button>
-        <button id="mobile-player-next" class="mobile-player-icon" aria-label="Следующий трек">${icon("next")}</button>
-        <button id="mobile-player-repeat" class="mobile-player-icon" aria-label="Повторять трек">${icon("repeat")}</button>
+        <button id="mobile-player-shuffle" class="mobile-player-icon" aria-label="Перемешать"><svg><use href="#i-shuffle" /></svg></button>
+        <button id="mobile-player-prev" class="mobile-player-icon" aria-label="Предыдущий трек"><svg><use href="#i-prev" /></svg></button>
+        <button id="mobile-player-play" class="mobile-player-main" aria-label="Воспроизвести"><svg><use href="#i-play" /></svg></button>
+        <button id="mobile-player-next" class="mobile-player-icon" aria-label="Следующий трек"><svg><use href="#i-next" /></svg></button>
+        <button id="mobile-player-repeat" class="mobile-player-icon" aria-label="Повторять трек"><svg><use href="#i-repeat" /></svg></button>
       </div>
       <div class="mobile-player-tools">
-        <button id="mobile-player-lyrics" class="mobile-tool">${icon("lyrics")}<span>Текст</span></button>
-        <button id="mobile-player-wave" class="mobile-tool">${icon("wave")}<span>Моя волна</span></button>
+        <button id="mobile-player-lyrics" class="mobile-tool"><svg><use href="#i-lyrics" /></svg><span>Текст</span></button>
+        <button id="mobile-player-wave" class="mobile-tool"><svg><use href="#i-wave" /></svg><span>Моя волна</span></button>
       </div>
     </section>
     <div id="cover-modal" class="cover-modal" hidden>
@@ -379,7 +385,7 @@
         <p>Выбери любимых артистов — «Моя волна» добавит их музыку к свежим хитам и будет учиться на твоих лайках.</p>
         <div class="artist-picks">
           <button class="artist-pick" data-artist="Баста">Баста</button>
-          <button class="artist-pick" data-artist="yasmi">yasmi</button>
+          <button class="artist-pick" data-artist="YASMI">YASMI</button>
           <button class="artist-pick" data-artist="MACAN">MACAN</button>
           <button class="artist-pick" data-artist="Miyagi">Miyagi</button>
           <button class="artist-pick" data-artist="Anna Asti">Anna Asti</button>
