@@ -1,0 +1,50 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.lo5ev.openwave"
+4    android:versionCode="8"
+5    android:versionName="8.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="35" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:2:5-67
+11-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:2:22-64
+12
+13    <application
+13-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:3:5-10:19
+14        android:debuggable="true"
+15        android:extractNativeLibs="false"
+16        android:icon="@drawable/openwave_logo"
+16-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:3:75-113
+17        android:label="OpenWave"
+17-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:3:50-74
+18        android:resizeableActivity="true"
+18-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:3:150-183
+19        android:theme="@style/AppTheme"
+19-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:3:18-49
+20        android:usesCleartextTraffic="true" >
+20-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:3:114-149
+21        <activity
+21-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:4:9-9:20
+22            android:name="com.lo5ev.openwave.MainActivity"
+22-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:4:19-47
+23            android:exported="true"
+23-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:4:88-111
+24            android:screenOrientation="unspecified" >
+24-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:4:48-87
+25            <intent-filter>
+25-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:5:13-8:29
+26                <action android:name="android.intent.action.MAIN" />
+26-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:6:17-69
+26-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:6:25-66
+27
+28                <category android:name="android.intent.category.LAUNCHER" />
+28-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:7:17-77
+28-->/data/openwave-work/mobile/android/app/src/main/AndroidManifest.xml:7:27-74
+29            </intent-filter>
+30        </activity>
+31    </application>
+32
+33</manifest>

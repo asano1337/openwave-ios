@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.lo5ev.openwave.app-mergeDebugResources-2:/values/values.xml",
+            "map": [
+                {
+                    "source": "/data/openwave-work/mobile/android/app/src/main/res/values/styles.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "377"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "416"
+                    }
+                }
+            ]
+        }
+    ]
+}

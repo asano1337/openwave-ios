@@ -1,0 +1,7 @@
+com.lo5ev.openwave.app-pngs-0 /data/openwave-work/mobile/android/app/build/generated/res/pngs/debug
+com.lo5ev.openwave.app-resValues-1 /data/openwave-work/mobile/android/app/build/generated/res/resValues/debug
+com.lo5ev.openwave.app-packageDebugResources-2 /data/openwave-work/mobile/android/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir
+com.lo5ev.openwave.app-packageDebugResources-3 /data/openwave-work/mobile/android/app/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
+com.lo5ev.openwave.app-debug-4 /data/openwave-work/mobile/android/app/build/intermediates/merged_res/debug/mergeDebugResources
+com.lo5ev.openwave.app-debug-5 /data/openwave-work/mobile/android/app/src/debug/res
+com.lo5ev.openwave.app-main-6 /data/openwave-work/mobile/android/app/src/main/res

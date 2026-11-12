@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>OpenWave</title>
+    <link rel="icon" href="/logo.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="OpenWave" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <svg class="sprite" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-home" viewBox="0 0 24 24">
+        <path d="M3.5 10.7 12 4l8.5 6.7v8.5H14v-5h-4v5H3.5z" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="10.8" cy="10.8" r="6.8" />
+        <path d="m16 16 4.5 4.5" />
+      </symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24">
+        <path
+          d="M20.4 8.9c0 4-4.3 7.4-8.4 10.2-4.1-2.8-8.4-6.2-8.4-10.2 0-4.6 5.7-6.1 8.4-2.4 2.7-3.7 8.4-2.2 8.4 2.4Z"
+        />
+      </symbol>
+      <symbol id="i-down" viewBox="0 0 24 24">
+        <path d="M12 3v12m-4-4 4 4 4-4M4.5 17v3h15v-3" />
+      </symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="M5 12h14m-5-5 5 5-5 5" />
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24">
+        <path d="M8.5 5.5v13l10-6.5z" fill="currentColor" stroke="none" />
+      </symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24">
+        <path d="M8 6h3v12H8zm5 0h3v12h-3z" fill="currentColor" stroke="none" />
+      </symbol>
+      <symbol id="i-prev" viewBox="0 0 24 24">
+        <path d="M6 5v14M19 5 8 12l11 7z" fill="currentColor" />
+      </symbol>
+      <symbol id="i-next" viewBox="0 0 24 24">
+        <path d="M18 5v14M5 5l11 7-11 7z" fill="currentColor" />
+      </symbol>
+      <symbol id="i-volume" viewBox="0 0 24 24">
+        <path
+          d="M4 9v6h4l5 4V5L8 9zm12-1c1.8 2 1.8 6 0 8m2.5-10c3 3 3 9 0 12"
+        />
+      </symbol>
+      <symbol id="i-close" viewBox="0 0 24 24">
+        <path d="m6 6 12 12M18 6 6 18" />
+      </symbol>
+      <symbol id="i-wave" viewBox="0 0 24 24">
+        <path d="M3 13c2-7 4 7 6 0s4 7 6 0 4 7 6 0" />
+      </symbol>
+      <symbol id="i-radio" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M7 7l9-4M7 12h6m-6 4h6"/><circle cx="17" cy="14" r="1.4"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v5m0-8v.2" />
+      </symbol>
+      <symbol id="i-history" viewBox="0 0 24 24">
+        <path d="M4 12a8 8 0 1 0 2.4-5.7M4 5v5h5" />
+        <path d="M12 7v5l3 2" />
+      </symbol>
+      <symbol id="i-lyrics" viewBox="0 0 24 24">
+        <path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5" />
+      </symbol>
+      <symbol id="i-shuffle" viewBox="0 0 24 24">
+        <path
+          d="M4 7h3c5 0 5 10 10 10h3m-3-3 3 3-3 3M4 17h3c2 0 3-2 4-4m3-4c1-1 2-2 3-2h3m-3-3 3 3-3 3"
+        />
+      </symbol>
+      <symbol id="i-repeat" viewBox="0 0 24 24">
+        <path
+          d="M5 8a5 5 0 0 1 5-3h8m-3-3 3 3-3 3M19 16a5 5 0 0 1-5 3H6m3-3-3 3 3 3"
+        />
+      </symbol>
+    </svg>
+    <div class="ambient-scene" aria-hidden="true">
+      <div class="ambient-glow ambient-glow-one"></div>
+      <div class="ambient-glow ambient-glow-two"></div>
+      <div id="starfield"></div>
+      <div class="ambient-grid"></div>
+    </div>
+    <div id="window-bar" class="window-bar" hidden>
+      <div id="window-drag" class="window-drag"></div>
+      <div class="window-actions">
+        <button id="window-min" aria-label="Свернуть">—</button
+        ><button id="window-max" aria-label="Развернуть">□</button
+        ><button id="window-close" aria-label="Закрыть">×</button>
+      </div>
+    </div>
+    <div class="app">
+      <aside>
+        <div class="brand">
+          <img src="/logo.png" alt="" />
+          <div><strong>openwave</strong><small>ТВОЯ МУЗЫКА</small></div>
+        </div>
+        <div class="side-label">НАВИГАЦИЯ</div>
+        <nav>
+          <button class="nav active" data-page="home">
+            <svg><use href="#i-home" /></svg><span>Главная</span></button
+          ><button class="nav" data-page="wave">
+            <svg><use href="#i-wave" /></svg><span>Моя волна</span></button
+          ><button class="nav" data-page="radio"><svg><use href="#i-radio" /></svg><span>Радио</span></button><button class="nav" data-page="search">
+            <svg><use href="#i-search" /></svg><span>Поиск</span>
+          </button>
+          <div class="side-label collection">КОЛЛЕКЦИЯ</div>
+          <button class="nav" data-page="favorites">
+            <svg><use href="#i-heart" /></svg><span>Избранное</span
+            ><small id="fav-count"></small></button
+          ><button class="nav" data-page="library">
+            <svg><use href="#i-down" /></svg><span>Скачанное</span>
+          </button>
+        </nav>
+        <div class="side-bottom">
+          <button class="nav" data-page="about">
+            <svg><use href="#i-info" /></svg><span>О приложении</span>
+          </button>
+          <div class="side-credit">
+            СОЗДАНО ДЛЯ ТВОЕЙ МУЗЫКИ<br /><b>BY LO5EV</b>
+          </div>
+          <button id="quit" class="quit">
+            Завершить работу <span>↗</span>
+          </button>
+        </div>
+      </aside>
+      <main id="main">
+        <header>
+          <div class="header-label"><i></i> МУЗЫКА БЕЗ ГРАНИЦ</div>
+          <div class="header-right">OPENWAVE <span>/</span> 06</div>
+        </header>
+        <section id="home" class="view">
+          <div class="hero">
+            <div class="hero-content"><div class="eyebrow"><i></i> НЕЗАВИСИМЫЙ ЗВУК / OPENWAVE 06</div><h1>Звук —<br /><span>твоя территория.</span></h1><p>Открывай новую музыку, собирай своё и слушай эфиры в одном пространстве.</p><div class="hero-actions"><button class="primary" id="go-wave">Включить волну <span>→</span></button><button class="ghost" id="go-radio">Слушать радио</button><button class="ghost" id="go-search">Поиск</button></div></div>
+            <div class="signal-visual" aria-hidden="true"><div class="signal-meta"><span>OW / SIGNAL 01</span><span>STEREO</span></div><div class="signal-lines"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="signal-number">01 <span> / ЗВУК В ДВИЖЕНИИ</span></div></div>
+          </div>
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow muted">НАЧНИ С ОТКРЫТИЯ</div>
+              <h2>Какое сегодня настроение?</h2>
+            </div>
+            <span>ИССЛЕДУЙ ЗВУК ↗</span>
+          </div>
+          <div class="genres">
+            <button class="genre" data-query="jazz">
+              <small>01 / ИМПРОВИЗАЦИЯ</small><strong>Jazz</strong
+              ><span>Мягко и свободно ↗</span></button
+            ><button class="genre" data-query="ambient">
+              <small>02 / СПОКОЙСТВИЕ</small><strong>Ambient</strong
+              ><span>Время замедлиться ↗</span></button
+            ><button class="genre" data-query="electronic">
+              <small>03 / ДВИЖЕНИЕ</small><strong>Electronic</strong
+              ><span>Поймай свой ритм ↗</span></button
+            ><button class="genre" data-query="classical">
+              <small>04 / ВНЕ ВРЕМЕНИ</small><strong>Classical</strong
+              ><span>Красота в деталях ↗</span>
+            </button>
+          </div>
+          <p class="note">
+            Открытые каталоги · условия прослушивания и скачивания зависят от
+            источника.
+          </p>
+        </section>
+        <section id="wave" class="view hidden">
+          <div class="wave-stage"><div class="wave-stage-copy"><div class="eyebrow"><i></i> НЕПРЕРЫВНАЯ ПОДБОРКА / 01</div><h1>Моя волна<span>.</span></h1><p>Выбери направление — и находи музыку, которую ещё не слышал.</p><div class="wave-actions"><button class="primary" id="start-wave">Включить волну <span>→</span></button><button class="ghost" id="shuffle-wave">Перемешать</button></div><div class="wave-live"><span class="live-dot"></span><span id="wave-current">ГОТОВА К ПРОСЛУШИВАНИЮ</span></div></div><div class="wave-art" aria-hidden="true"><div class="wave-dial"><span>W</span><small>OPENWAVE<br/>DISCOVERY MODE</small></div><div class="wave-orbit one"></div><div class="wave-orbit two"></div><div class="wave-art-label">СИГНАЛ<br/><b>НА ТВОЕЙ<br/>ЧАСТОТЕ</b></div></div></div>
+          <div class="wave-config"><div><div class="eyebrow muted">НАСТРОЙ СВОЙ ЗВУК</div><h2>Выбери направление</h2></div><div class="wave-toolbar"><label>Жанр<select id="wave-genre"><option value="">Все жанры</option><option>Electronic</option><option>Rock</option><option>Hip-Hop/Rap</option><option>Pop</option><option>Jazz</option></select></label><div class="wave-engine"><span>ДВИЖОК</span><b>HITMO DISCOVERY</b><small>поиск + ротация + защита от повторов</small></div><button class="ghost" id="refresh-wave">Обновить</button></div></div>
+          <p class="wave-note">«Моя волна» собирает очередь на основе Hitmo: несколько поисковых запросов по жанру, затем удаление повторов и умная ротация. Нажми «Включить волну» — следующий трек подберётся автоматически.</p>
+          <div id="wave-content" aria-live="polite"></div>
+        </section>
+        <section id="radio" class="view hidden">
+          <div class="radio-intro"><div><div class="eyebrow"><i></i> ПРЯМОЙ ЭФИР / РАДИО РЕКОРД</div><h1>Лови эфир<span>.</span></h1><p>Российские и международные музыкальные каналы. Переключай станции и слушай живое радио.</p></div><div class="radio-mark" aria-hidden="true"><span>FM</span><small>LIVE / 24:7</small></div></div>
+          <div class="radio-toolbar"><div><div class="eyebrow muted">КОЛЛЕКЦИЯ КАНАЛОВ</div><h2>Выбери станцию <span id="radio-count"></span></h2></div><label class="radio-search"><svg><use href="#i-search"/></svg><input id="radio-query" type="search" placeholder="Найти станцию" aria-label="Поиск радиостанции"/></label></div>
+          <div class="radio-filters" role="group" aria-label="Фильтр радиостанций"><button class="radio-filter active" data-filter="all" aria-pressed="true">Все каналы</button><button class="radio-filter" data-filter="russian" aria-pressed="false">Русская музыка</button></div>
+          <div id="radio-content"></div><p class="note">Эфир Радио Рекорд, не каталог песен по запросу. Наличие каналов зависит от станции. <a href="https://www.radiorecord.ru/" target="_blank" rel="noopener">Официальный сайт ↗</a></p>
+          <div class="service-links"><div><span class="eyebrow muted">ЕЩЁ МУЗЫКА</span><h2>Российские сервисы</h2><p>Открываются на официальных сайтах; их каталоги не подключены к поиску и плееру OpenWave.</p></div><a href="https://music.yandex.ru/" target="_blank" rel="noopener">Яндекс Музыка <span>↗</span></a><a href="https://music.vk.com/" target="_blank" rel="noopener">VK Музыка <span>↗</span></a><a href="https://zvuk.com/" target="_blank" rel="noopener">Звук <span>↗</span></a></div>
+        </section>
+        <section id="search" class="view hidden">
+          <div class="page-title">
+            <div class="eyebrow muted">МУЗЫКА ИЗ РАЗНЫХ ИСТОЧНИКОВ</div>
+            <h1>Поиск<span>.</span></h1>
+            <p>Исполнитель, название трека или альбома</p>
+          </div>
+          <form id="search-form">
+            <svg><use href="#i-search" /></svg
+            ><input
+              id="query"
+              maxlength="100"
+              placeholder="Что хочешь послушать?"
+              aria-label="Поиск музыки"
+              autocomplete="off"
+            /><button type="submit" class="primary">
+              Искать <span>↗</span>
+            </button>
+          </form>
+          <div class="discover-panel">
+            <div class="discover-head"><div><div class="eyebrow muted">ЕЩЁ БОЛЬШЕ МУЗЫКИ</div><h2>Открывай дальше</h2></div><p>Поиск на сайтах и плеер SoundCloud по ссылке.</p></div>
+            <div class="discover-links"><a id="hitmo-search" href="https://rus.hitmos.fm/" target="_blank" rel="noopener">Hitmo <span>↗</span></a><a id="zaycev-search" href="https://zaycev.net/" target="_blank" rel="noopener">Zaycev.net <span>↗</span></a><a id="soundcloud-search" href="https://soundcloud.com/search" target="_blank" rel="noopener">Искать в SoundCloud <span>↗</span></a></div>
+            <div class="sc-box"><div><b>SoundCloud по ссылке</b><p>Вставь ссылку на трек или плейлист — откроется встроенный плеер SoundCloud.</p></div><form id="sc-form"><input id="sc-url" type="url" placeholder="https://soundcloud.com/…" aria-label="Ссылка SoundCloud" required><button class="ghost" type="submit">Открыть плеер</button></form><p id="sc-status" class="sc-status" role="status"></p><iframe id="sc-player" title="Плеер SoundCloud" allow="autoplay" loading="lazy" hidden></iframe></div>
+          </div>
+          <div id="search-content">
+            <div class="empty">
+              <div class="empty-icon"><svg aria-hidden="true"><use href="#i-search" /></svg></div>
+              <h2>Музыка ждёт тебя</h2>
+              <p>Введи название трека или имя исполнителя.</p>
+            </div>
+          </div>
+        </section>
+        <section id="album" class="view hidden">
+          <button class="back" id="back">← &nbsp; К результатам поиска</button>
+          <div id="album-content"></div>
+        </section>
+        <section id="favorites" class="view hidden">
+          <div class="page-title">
+            <div class="eyebrow muted">ТВОЯ КОЛЛЕКЦИЯ</div>
+            <h1>Избранное<span>.</span></h1>
+            <p>Всё, что хочется слушать снова.</p>
+          </div>
+          <div id="favorites-content"></div>
+          <section id="history-content" class="history-section" aria-labelledby="history-title"></section>
+        </section>
+        <section id="library" class="view hidden">
+          <div class="page-title">
+            <div class="eyebrow muted">МУЗЫКА НА КОМПЬЮТЕРЕ</div>
+            <h1>Скачанное<span>.</span></h1>
+            <p>Сохранённые треки доступны без подключения.</p>
+          </div>
+          <div id="library-content"></div>
+        </section>
+        <section id="about" class="view hidden">
+          <div class="page-title">
+            <div class="eyebrow muted">ЗА МУЗЫКОЙ СТОЯТ ЛЮДИ</div>
+            <h1>О приложении<span>.</span></h1>
+            <p>Пространство для музыки, которая тебе нравится.</p>
+          </div>
+          <div class="about-card">
+            <img src="/logo.png" alt="Логотип OpenWave" />
+            <div>
+              <div class="eyebrow muted">РАЗРАБОТЧИК</div>
+              <h2>LO5EV</h2>
+              <p>
+                OpenWave объединяет открытые музыкальные каталоги в одном месте.
+                Ищи, слушай и сохраняй любимое.
+              </p>
+              <p class="note">
+                Источники: Audius, ccMixter, Wikimedia Commons, Internet
+                Archive, Free To Use, Hitmo и Zaycev.net; прямые эфиры — Радио Рекорд. SoundCloud работает во встроенном плеере по ссылке. Free To Use предназначен для некоммерческого использования с указанием автора и источника. Каталоги отличаются от коммерческих сервисов.
+                Доступность музыки и права определяются источниками.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <footer class="player">
+      <div class="now">
+        <button class="now-art" id="now-art" aria-label="Открыть обложку и текст песни"><img src="/logo.png" alt="" /></button>
+        <div class="now-info">
+          <b id="now-title">Пока ничего не играет</b
+          ><span id="now-artist">Выбери трек для прослушивания</span>
+        </div>
+        <button
+          id="now-fav"
+          class="icon-button"
+          aria-label="Добавить в избранное"
+        >
+          <svg><use href="#i-heart" /></svg>
+        </button>
+      </div>
+      <div class="play-center">
+        <div class="controls">
+          <button id="shuffle" aria-label="Перемешивание" title="Перемешивание">
+            <svg><use href="#i-shuffle" /></svg></button
+          ><button id="prev" aria-label="Предыдущий трек">
+            <svg><use href="#i-prev" /></svg></button
+          ><button id="play" class="play-main" aria-label="Воспроизвести">
+            <svg><use href="#i-play" /></svg></button
+          ><button id="next" aria-label="Следующий трек">
+            <svg><use href="#i-next" /></svg></button
+          ><button
+            id="repeat"
+            aria-label="Повторять трек"
+            title="Повторять трек"
+          >
+            <svg><use href="#i-repeat" /></svg>
+          </button>
+        </div>
+        <div class="timeline">
+          <span id="current">0:00</span
+          ><input
+            type="range"
+            id="seek"
+            min="0"
+            max="1000"
+            value="0"
+            aria-label="Позиция трека"
+          /><span id="duration">0:00</span>
+        </div>
+      </div>
+      <div class="volume">
+        <svg><use href="#i-volume" /></svg
+        ><input
+          id="volume"
+          type="range"
+          min="0"
+          max="100"
+          value="80"
+          aria-label="Громкость"
+        />
+      </div>
+    </footer>
+    <section id="mobile-player" class="mobile-player" hidden aria-modal="true" role="dialog" aria-labelledby="mobile-player-title">
+      <div class="mobile-player-bg"></div>
+      <div class="mobile-player-top">
+        <button id="mobile-player-close" class="mobile-player-icon" aria-label="Свернуть плеер">⌄</button>
+        <span>СЕЙЧАС ИГРАЕТ</span>
+        <button id="mobile-player-menu" class="mobile-player-icon" aria-label="Дополнительно">•••</button>
+      </div>
+      <div class="mobile-player-art-wrap">
+        <img id="mobile-player-image" src="/logo.png" alt="" />
+      </div>
+      <div class="mobile-player-info">
+        <div>
+          <h2 id="mobile-player-title">Пока ничего не играет</h2>
+          <button id="mobile-player-artist" type="button">Выбери трек для прослушивания</button>
+        </div>
+        <button id="mobile-player-fav" class="mobile-player-heart" aria-label="Добавить в избранное">${icon("heart")}</button>
+      </div>
+      <div class="mobile-player-progress">
+        <input id="mobile-player-seek" type="range" min="0" max="1000" value="0" aria-label="Позиция трека" />
+        <div><span id="mobile-player-current">0:00</span><span id="mobile-player-duration">0:00</span></div>
+      </div>
+      <div class="mobile-player-controls">
+        <button id="mobile-player-shuffle" class="mobile-player-icon" aria-label="Перемешать">${icon("shuffle")}</button>
+        <button id="mobile-player-prev" class="mobile-player-icon" aria-label="Предыдущий трек">${icon("prev")}</button>
+        <button id="mobile-player-play" class="mobile-player-main" aria-label="Воспроизвести">${icon("play")}</button>
+        <button id="mobile-player-next" class="mobile-player-icon" aria-label="Следующий трек">${icon("next")}</button>
+        <button id="mobile-player-repeat" class="mobile-player-icon" aria-label="Повторять трек">${icon("repeat")}</button>
+      </div>
+      <div class="mobile-player-tools">
+        <button id="mobile-player-lyrics" class="mobile-tool">${icon("lyrics")}<span>Текст</span></button>
+        <button id="mobile-player-wave" class="mobile-tool">${icon("wave")}<span>Моя волна</span></button>
+      </div>
+    </section>
+    <div id="cover-modal" class="cover-modal" hidden>
+      <div class="cover-backdrop" data-cover-close></div>
+      <section class="cover-panel" role="dialog" aria-modal="true" aria-labelledby="cover-title">
+        <button id="cover-close" class="cover-close" aria-label="Закрыть">×</button>
+        <div class="cover-layout">
+          <div class="cover-visual">
+            <img id="cover-image" src="/logo.png" alt="" />
+            <div class="cover-glow"></div>
+          </div>
+          <div class="cover-info">
+            <div class="eyebrow muted">NOW PLAYING / OPENWAVE</div>
+            <h2 id="cover-title">Пока ничего не играет</h2>
+            <p id="cover-artist">Выбери трек для прослушивания</p>
+            <div class="cover-actions">
+              <button id="cover-play" class="primary">Воспроизвести <span>→</span></button>
+              <button id="cover-fav" class="ghost"><svg><use href="#i-heart" /></svg> Избранное</button>
+              <button id="cover-lyrics-btn" class="ghost"><svg><use href="#i-lyrics" /></svg> Текст</button>
+            </div>
+            <div class="lyrics-toolbar"><span id="lyrics-provider">СИНХРОНИЗИРОВАННЫЙ ТЕКСТ</span><a id="lyrics-genius" href="#" target="_blank" rel="noopener">Открыть в Genius ↗</a></div>
+            <div id="cover-lyrics" class="cover-lyrics" aria-live="polite">
+              <div class="lyrics-empty">Текст песни появится здесь, если он найден.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <section id="onboarding" class="onboarding" hidden aria-labelledby="onboarding-title">
+      <div class="onboarding-backdrop"></div>
+      <div class="onboarding-panel">
+        <div class="eyebrow muted"><i></i> OPENWAVE PERSONAL MIX</div>
+        <h2 id="onboarding-title">Что включить первым?</h2>
+        <p>Выбери любимых артистов — «Моя волна» добавит их музыку к свежим хитам и будет учиться на твоих лайках.</p>
+        <div class="artist-picks">
+          <button class="artist-pick" data-artist="Баста">Баста</button>
+          <button class="artist-pick" data-artist="yasmi">yasmi</button>
+          <button class="artist-pick" data-artist="MACAN">MACAN</button>
+          <button class="artist-pick" data-artist="Miyagi">Miyagi</button>
+          <button class="artist-pick" data-artist="Anna Asti">Anna Asti</button>
+          <button class="artist-pick" data-artist="Toxi$">Toxi$</button>
+          <button class="artist-pick" data-artist="Три дня дождя">Три дня дождя</button>
+          <button class="artist-pick" data-artist="NЮ">NЮ</button>
+          <button class="artist-pick" data-artist="Ваня Дмитриенко">Ваня Дмитриенко</button>
+          <button class="artist-pick" data-artist="Мот">Мот</button>
+          <button class="artist-pick" data-artist="HammAli & Navai">HammAli &amp; Navai</button>
+          <button class="artist-pick" data-artist="Xcho">Xcho</button>
+          <button class="artist-pick" data-artist="JONY">JONY</button>
+          <button class="artist-pick" data-artist="ЛСП">ЛСП</button>
+          <button class="artist-pick" data-artist="INSTASAMKA">INSTASAMKA</button>
+          <button class="artist-pick" data-artist="The Limba">The Limba</button>
+          <button class="artist-pick" data-artist="ЕГОР КРИД">ЕГОР КРИД</button>
+          <button class="artist-pick" data-artist="Zivert">Zivert</button>
+          <button class="artist-pick" data-artist="Би-2">Би-2</button>
+          <button class="artist-pick" data-artist="Cream Soda">Cream Soda</button>
+        </div>
+        <input id="onboarding-artists" class="onboarding-input" placeholder="Или напиши артистов через запятую" autocomplete="off" />
+        <div class="onboarding-actions">
+          <button id="onboarding-skip" class="ghost">Пропустить</button>
+          <button id="onboarding-start" class="primary">Собрать мою волну <span>→</span></button>
+        </div>
+      </div>
+    </section>
+    <div id="toast" role="status"></div>
+    <audio id="audio" preload="metadata"></audio>
+    <script>
+      window.APP_TOKEN = "__TOKEN__";
+    </script>
+    <script src="/stations.js"></script>
+    <script src="/app.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js").catch(() => {});
+      }
+    </script>
+  </body>
+</html>

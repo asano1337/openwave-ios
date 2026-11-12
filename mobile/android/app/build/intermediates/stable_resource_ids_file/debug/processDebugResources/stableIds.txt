@@ -1,0 +1,2 @@
+com.lo5ev.openwave:style/AppTheme = 0x7f020000
+com.lo5ev.openwave:drawable/openwave_logo = 0x7f010000
